@@ -13,6 +13,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/**
+ * Application (Singleton) module for dagger hilt
+ * 1. Provides the API related dependency
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
@@ -34,5 +38,6 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideApiInterface(retrofit: Retrofit): ApiInterface = retrofit.create(ApiInterface::class.java)
+    fun provideApiInterface(retrofit: Retrofit): ApiInterface =
+        retrofit.create(ApiInterface::class.java)
 }

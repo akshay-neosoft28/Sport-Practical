@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatDialog
 import androidx.fragment.app.Fragment
 import com.example.sportpractical.databinding.LoaderBinding
 
+/**
+ * Universal loader
+ * Use case: Create a lazy object with below method #appLoader()
+ */
 class AppLoader(context: Context) : AppCompatDialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

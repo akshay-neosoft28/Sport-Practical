@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.sportpractical.databinding.FragmentFirstBinding
+import com.example.sportpractical.databinding.FragmentMatchInfoBinding
 import com.example.sportpractical.models.SportsData
 import com.example.sportpractical.utils.appLoader
 import com.example.sportpractical.viewmodels.MainViewModel
@@ -16,9 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FirstFragment : Fragment() {
+class MatchInfoFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentMatchInfoBinding? = null
     private val binding get() = _binding!!
 
     private val mainViewModel: MainViewModel by activityViewModels()
@@ -28,7 +28,7 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentMatchInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,6 +38,9 @@ class FirstFragment : Fragment() {
         setupObserver()
     }
 
+    /**
+     * Handle the observer of the view model
+     */
     private fun setupObserver() {
         lifecycleScope.launch {
             mainViewModel.sportsDataFlow.collect {
@@ -47,14 +50,20 @@ class FirstFragment : Fragment() {
         }
     }
 
+    /**
+     * View initialization
+     */
     private fun setupView() {
         with(binding) {
             btnNext.setOnClickListener {
-                findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment())
+                findNavController().navigate(MatchInfoFragmentDirections.actionMatchInfoFragmentToTeamInfoFragment())
             }
         }
     }
 
+    /**
+     * Update the UI after the get data from the API
+     */
     private fun updateUi(data: SportsData) {
         with(binding) {
             val team1 = data.teams[data.matchdetail.teamHome]?.nameFull

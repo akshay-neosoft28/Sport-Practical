@@ -9,16 +9,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sportpractical.R
-import com.example.sportpractical.databinding.FragmentSecondBinding
+import com.example.sportpractical.databinding.FragmentTeamInfoBinding
 import com.example.sportpractical.viewmodels.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SecondFragment : Fragment() {
+class TeamInfoFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+    private var _binding: FragmentTeamInfoBinding? = null
     private val binding get() = _binding!!
 
     private val mainViewModel: MainViewModel by activityViewModels()
@@ -28,7 +28,7 @@ class SecondFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = FragmentTeamInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,6 +38,9 @@ class SecondFragment : Fragment() {
         setupObserver()
     }
 
+    /**
+     * Handle the observer of the view model
+     */
     private fun setupObserver() {
         lifecycleScope.launch {
             mainViewModel.playersFlow.collect {
@@ -56,6 +59,9 @@ class SecondFragment : Fragment() {
         }
     }
 
+    /**
+     * View initialization
+     */
     private fun setupView() {
         with(binding) {
             rvPlayer.apply {

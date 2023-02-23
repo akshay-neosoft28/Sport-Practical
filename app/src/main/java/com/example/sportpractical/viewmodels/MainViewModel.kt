@@ -16,7 +16,6 @@ class MainViewModel @Inject constructor(
     private val mainRepo: MainRepo
 ) : ViewModel() {
 
-
     val sportsDataFlow = MutableStateFlow<SportsData?>(null)
     val playersFlow = MutableStateFlow(listOf<Player>())
 
@@ -24,6 +23,9 @@ class MainViewModel @Inject constructor(
         fetchSportsData()
     }
 
+    /**
+     * Call API for fetch the sport data
+     */
     private fun fetchSportsData() {
         viewModelScope.launch(Dispatchers.IO) {
             mainRepo.getSportsData().onSuccess {
@@ -36,6 +38,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Arrange player for the display in the view
+     * With the support the filter option
+     */
     fun arrangePlayer(type: Int) {
         when (type) {
             0 -> {
