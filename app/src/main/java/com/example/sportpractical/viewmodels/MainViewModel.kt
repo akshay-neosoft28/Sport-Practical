@@ -17,10 +17,12 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val sportsDataFlow = MutableStateFlow<SportsData?>(null)
+    val sportsDataFlow2 = MutableStateFlow<SportsData?>(null)
     val playersFlow = MutableStateFlow(listOf<Player>())
 
     init {
         fetchSportsData()
+        fetchSportsData2()
     }
 
     /**
@@ -30,8 +32,16 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             mainRepo.getSportsData().onSuccess {
                 sportsDataFlow.value = it
+            }.onFailure {
+                it.printStackTrace()
+            }
+        }
+    }
 
-                arrangePlayer(0)
+    private fun fetchSportsData2() {
+        viewModelScope.launch(Dispatchers.IO) {
+            mainRepo.getSportsData2().onSuccess {
+                sportsDataFlow2.value = it
             }.onFailure {
                 it.printStackTrace()
             }
@@ -42,26 +52,22 @@ class MainViewModel @Inject constructor(
      * Arrange player for the display in the view
      * With the support the filter option
      */
-    fun arrangePlayer(type: Int) {
+    fun arrangePlayer(data: SportsData, type: Int) {
         when (type) {
             0 -> {
                 val allPlayers = mutableListOf<Player>()
-                sportsDataFlow.value?.teams?.values?.forEach { team ->
+                data.teams.values.forEach { team ->
                     allPlayers.addAll(team.players.values)
                 }
                 playersFlow.value = allPlayers
             }
             1 -> {
-                sportsDataFlow.value?.let { data ->
-                    val team1 = data.teams[data.matchdetail.teamHome]
-                    playersFlow.value = team1?.players?.values?.toList() ?: listOf()
-                }
+                val team1 = data.teams[data.matchdetail.teamHome]
+                playersFlow.value = team1?.players?.values?.toList() ?: listOf()
             }
             2 -> {
-                sportsDataFlow.value?.let { data ->
-                    val team2 = data.teams[data.matchdetail.teamAway]
-                    playersFlow.value = team2?.players?.values?.toList() ?: listOf()
-                }
+                val team2 = data.teams[data.matchdetail.teamAway]
+                playersFlow.value = team2?.players?.values?.toList() ?: listOf()
             }
         }
     }

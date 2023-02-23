@@ -1,8 +1,11 @@
 package com.example.sportpractical.models
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Matchdetail(
     @SerializedName("Team_Home")
     val teamHome: String,
@@ -10,12 +13,8 @@ data class Matchdetail(
     val teamAway: String,
     @SerializedName("Match")
     val match: Match,
-    @SerializedName("Series")
-    val series: Series,
     @SerializedName("Venue")
     val venue: Venue,
-    @SerializedName("Officials")
-    val officials: Officials,
     @SerializedName("Weather")
     val weather: String,
     @SerializedName("Tosswonby")
@@ -34,4 +33,4 @@ data class Matchdetail(
     val winmargin: String,
     @SerializedName("Equation")
     val equation: String
-)
+): Parcelable

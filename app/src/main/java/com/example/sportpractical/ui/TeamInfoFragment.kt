@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sportpractical.R
 import com.example.sportpractical.databinding.FragmentTeamInfoBinding
@@ -22,6 +23,7 @@ class TeamInfoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val mainViewModel: MainViewModel by activityViewModels()
+    private val args: TeamInfoFragmentArgs by navArgs()
     private val playerAdapter = PlayerAdapter()
 
     override fun onCreateView(
@@ -48,13 +50,11 @@ class TeamInfoFragment : Fragment() {
             }
         }
         lifecycleScope.launch {
-            mainViewModel.sportsDataFlow.collect {
-                it?.let {
-                    val team1 = it.teams[it.matchdetail.teamHome]?.nameFull
-                    val team2 = it.teams[it.matchdetail.teamAway]?.nameFull
-                    binding.chipTeamA.text = team1
-                    binding.chipTeamB.text = team2
-                }
+            args.data.let {
+                val team1 = it.teams[it.matchdetail.teamHome]?.nameFull
+                val team2 = it.teams[it.matchdetail.teamAway]?.nameFull
+                binding.chipTeamA.text = team1
+                binding.chipTeamB.text = team2
             }
         }
     }
@@ -83,16 +83,17 @@ class TeamInfoFragment : Fragment() {
             cgFilter.setOnCheckedChangeListener { group, checkedIds ->
                 when (checkedIds) {
                     (R.id.chip_all) -> {
-                        mainViewModel.arrangePlayer(0)
+                        mainViewModel.arrangePlayer(args.data,0)
                     }
                     (R.id.chip_team_a) -> {
-                        mainViewModel.arrangePlayer(1)
+                        mainViewModel.arrangePlayer(args.data,1)
                     }
                     (R.id.chip_team_b) -> {
-                        mainViewModel.arrangePlayer(2)
+                        mainViewModel.arrangePlayer(args.data,2)
                     }
                 }
             }
+            mainViewModel.arrangePlayer(args.data,0)
         }
     }
 

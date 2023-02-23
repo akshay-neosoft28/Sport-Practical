@@ -1,8 +1,11 @@
 package com.example.sportpractical.models
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Player(
     @SerializedName("Position")
     val position: String,
@@ -16,4 +19,4 @@ data class Player(
     val batting: Batting,
     @SerializedName("Bowling")
     val bowling: Bowling
-)
+): Parcelable

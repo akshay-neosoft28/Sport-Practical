@@ -1,8 +1,11 @@
 package com.example.sportpractical.models
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Match(
     @SerializedName("Livecoverage")
     val livecoverage: String,
@@ -24,4 +27,4 @@ data class Match(
     val offset: String,
     @SerializedName("Daynight")
     val daynight: String
-)
+) : Parcelable

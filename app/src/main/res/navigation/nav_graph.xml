@@ -19,5 +19,9 @@
         android:id="@+id/teamInfoFragment"
         android:name="com.example.sportpractical.ui.TeamInfoFragment"
         android:label="Team Info"
-        tools:layout="@layout/fragment_team_info" />
+        tools:layout="@layout/fragment_team_info" >
+        <argument
+            android:name="data"
+            app:argType="com.example.sportpractical.models.SportsData" />
+    </fragment>
 </navigation>

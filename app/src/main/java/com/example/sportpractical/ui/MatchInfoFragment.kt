@@ -34,7 +34,6 @@ class MatchInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
         setupObserver()
     }
 
@@ -48,15 +47,10 @@ class MatchInfoFragment : Fragment() {
                 it?.let { updateUi(it) }
             }
         }
-    }
-
-    /**
-     * View initialization
-     */
-    private fun setupView() {
-        with(binding) {
-            btnNext.setOnClickListener {
-                findNavController().navigate(MatchInfoFragmentDirections.actionMatchInfoFragmentToTeamInfoFragment())
+        lifecycleScope.launch {
+            mainViewModel.sportsDataFlow2.collect {
+                loader showIf (it == null)
+                it?.let { updateUi2(it) }
             }
         }
     }
@@ -73,6 +67,35 @@ class MatchInfoFragment : Fragment() {
                 Date: ${data.matchdetail.match.date} ${data.matchdetail.match.time}
                 Venue: ${data.matchdetail.venue.name}
             """.trimIndent()
+            btnNext.setOnClickListener {
+                findNavController().navigate(
+                    MatchInfoFragmentDirections.actionMatchInfoFragmentToTeamInfoFragment(
+                        data
+                    )
+                )
+            }
+        }
+    }
+
+    /**
+     * Update the UI after the get data from the API for second match
+     */
+    private fun updateUi2(data: SportsData) {
+        with(binding) {
+            val team1 = data.teams[data.matchdetail.teamHome]?.nameFull
+            val team2 = data.teams[data.matchdetail.teamAway]?.nameFull
+            tvTeamName2.text = "$team1 vs $team2"
+            tvMatchDetails2.text = """
+                Date: ${data.matchdetail.match.date} ${data.matchdetail.match.time}
+                Venue: ${data.matchdetail.venue.name}
+            """.trimIndent()
+            btnNext2.setOnClickListener {
+                findNavController().navigate(
+                    MatchInfoFragmentDirections.actionMatchInfoFragmentToTeamInfoFragment(
+                        data
+                    )
+                )
+            }
         }
     }
 

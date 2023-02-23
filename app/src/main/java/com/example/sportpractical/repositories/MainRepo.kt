@@ -8,4 +8,6 @@ class MainRepo @Inject constructor(
 ) {
 
     suspend fun getSportsData() = apiInterface.getSportsData()
+
+    suspend fun getSportsData2() = apiInterface.getSportsData2()
 }
